@@ -1,10 +1,8 @@
 package com.thoughtworks.collection;
 
 import com.google.common.collect.Streams;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +40,10 @@ public class CollectionOperator {
     }
 
     public List<Integer> popCommonElement(int[] firstArray, int[] secondArray) {
-        throw new NotImplementedException();
+        List<Integer> first = Arrays.stream(firstArray).boxed().collect(Collectors.toList());
+        List<Integer> second = Arrays.stream(secondArray).boxed().collect(Collectors.toList());
+        first.retainAll(second);
+        return first;
     }
 
     public List<Integer> addUncommonElement(Integer[] firstArray, Integer[] secondArray) {

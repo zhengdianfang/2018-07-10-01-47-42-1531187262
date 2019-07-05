@@ -1,7 +1,5 @@
 package com.thoughtworks.collection;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -29,13 +27,13 @@ public class Reduce {
 
     public double getOrderedMedian() {
         List<Integer> collect = arrayList.stream()
-                .filter(number -> number % 2 == 0)
                 .sorted()
                 .collect(Collectors.toList());
-        if (collect.size() % 2 == 0) {
-            return (collect.get(collect.size() / 2) + collect.get(collect.size() / 2 - 1)) / 2;
+        int size = collect.size();
+        if (isEvenNumber(size)) {
+            return (collect.get(size / 2) + collect.get(size / 2 - 1)) / 2.0;
         }
-        return collect.get(collect.size() / 2);
+        return collect.get(size / 2);
     }
 
     public int getFirstEven() {
@@ -59,8 +57,13 @@ public class Reduce {
 
     }
 
-    public Double getMedianInLinkList(SingleLink singleLink) {
-        throw new NotImplementedException();
+    public Double getMedianInLinkList(SingleLink<Integer> singleLink) {
+        this.arrayList.forEach(singleLink::addTailPointer);
+        int size = this.arrayList.size();
+        if (isEvenNumber(size)) {
+            return (singleLink.getNode(size / 2) + singleLink.getNode(size / 2 + 1)) / 2.0;
+        }
+        return Double.valueOf(singleLink.getNode(size / 2 + 1));
     }
 
     public int getLastOdd() {
@@ -76,5 +79,9 @@ public class Reduce {
                 .reduce((first, second) -> second)
                 .get();
         return this.arrayList.indexOf(num);
+    }
+
+    private boolean isEvenNumber(int number) {
+        return number % 2 == 0;
     }
 }
